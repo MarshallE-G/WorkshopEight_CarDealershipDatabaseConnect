@@ -4,9 +4,9 @@ import org.apache.commons.dbcp2.BasicDataSource;
 
 public class UserInterface {
     // Change UserInterface in order to save to the Database instead of writing to the file.
-    private static BasicDataSource basicDataSource;
     
     public static void init(String[] args) {
+        BasicDataSource basicDataSource = new BasicDataSource();
         basicDataSource.setUrl("jdbc:mysql://localhost:3306/dealership_db");
         basicDataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
         basicDataSource.setUsername(args[0]);
