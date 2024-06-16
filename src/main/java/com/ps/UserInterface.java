@@ -25,7 +25,8 @@ public class UserInterface {
     
 //        List<Vehicle> vehicles = vehicleDAO.getVehiclesByPrice(995, 996);
 //        List<Vehicle> vehicles = vehicleDAO.getVehiclesByMakeModel("Ford", "Explorer");
-        List<Vehicle> vehicles = vehicleDAO.getVehiclesByColor("silver");
+//        List<Vehicle> vehicles = vehicleDAO.getVehiclesByColor("silver");
+        List<Vehicle> vehicles = vehicleDAO.getVehiclesByMileage(1, 1);
         System.out.println(vehicles);
     }
     

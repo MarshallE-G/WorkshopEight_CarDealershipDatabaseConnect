@@ -135,7 +135,31 @@ public class VehicleDAO implements VehicleInt {
     
     @Override
     public List<Vehicle> getVehiclesByMileage(int min, int max) {
-        return null;
+        List<Vehicle> vehicles = new ArrayList<>();
+    
+        try (
+                Connection connection = basicDataSource.getConnection();
+                PreparedStatement preparedStatement = connection.prepareStatement(
+                        "SELECT * FROM vehicles WHERE mileage >= ? AND mileage <= ?"
+                );
+        ) {
+            preparedStatement.setInt(1, min);
+            preparedStatement.setInt(2, max);
+        
+            try (
+                    ResultSet resultSet = preparedStatement.executeQuery();
+            ) {
+                while (resultSet.next()) {
+                    Vehicle vehicle = generateVehicleFromRS(resultSet);
+                
+                    vehicles.add(vehicle);
+                }
+            }
+        } catch (SQLException sql) {
+            sql.printStackTrace();
+        } finally {
+            return vehicles;
+        }
     }
     
     @Override
