@@ -78,12 +78,59 @@ public class VehicleDAO implements VehicleInt {
     
     @Override
     public List<Vehicle> getVehiclesByYear(int min, int max) {
-        return null;
+        List<Vehicle> vehicles = new ArrayList<>();
+    
+        try (
+                Connection connection = basicDataSource.getConnection();
+                PreparedStatement preparedStatement = connection.prepareStatement(
+                        "SELECT * FROM vehicles WHERE year >= ? AND year <= ?"
+                );
+        ) {
+            preparedStatement.setDouble(1, min);
+            preparedStatement.setDouble(2, max);
+        
+            try (
+                    ResultSet resultSet = preparedStatement.executeQuery();
+            ) {
+                while (resultSet.next()) {
+                    Vehicle vehicle = generateVehicleFromRS(resultSet);
+                
+                    vehicles.add(vehicle);
+                }
+            }
+        } catch (SQLException sql) {
+            sql.printStackTrace();
+        } finally {
+            return vehicles;
+        }
     }
     
     @Override
     public List<Vehicle> getVehiclesByColor(String color) {
-        return null;
+        List<Vehicle> vehicles = new ArrayList<>();
+    
+        try (
+                Connection connection = basicDataSource.getConnection();
+                PreparedStatement preparedStatement = connection.prepareStatement(
+                        "SELECT * FROM vehicles WHERE vehicle_color = ?"
+                );
+        ) {
+            preparedStatement.setString(1, color);
+        
+            try (
+                    ResultSet resultSet = preparedStatement.executeQuery();
+            ) {
+                while (resultSet.next()) {
+                    Vehicle vehicle = generateVehicleFromRS(resultSet);
+                
+                    vehicles.add(vehicle);
+                }
+            }
+        } catch (SQLException sql) {
+            sql.printStackTrace();
+        } finally {
+            return vehicles;
+        }
     }
     
     @Override
