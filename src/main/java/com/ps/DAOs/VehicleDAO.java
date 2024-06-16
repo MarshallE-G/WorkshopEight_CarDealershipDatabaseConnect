@@ -4,10 +4,7 @@ import com.ps.DAOs.interfaces.VehicleInt;
 import com.ps.models.Vehicle;
 import org.apache.commons.dbcp2.BasicDataSource;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -188,6 +185,44 @@ public class VehicleDAO implements VehicleInt {
         } finally {
             return vehicles;
         }
+    }
+    
+    @Override
+    public void addVehicle(Vehicle vehicle) {
+        try (
+                Connection connection = this.basicDataSource.getConnection();
+                PreparedStatement preparedStatement = connection.prepareStatement(
+                        "INSERT INTO vehicles(" +
+                                "`VIN`, " +
+                                "`year`, " +
+                                "`make_name`, " +
+                                "`model_name`, " +
+                                "`vehicle_type`, " +
+                                "`vehicle_color`, " +
+                                "`mileage`, " +
+                                "`vehicle_price`, " +
+                                "`SOLD`) " +
+                                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);"
+                );
+        ) {
+            preparedStatement.setInt(1, vehicle.getVin());
+            preparedStatement.setInt(2, vehicle.getYear());
+            preparedStatement.setString(3, vehicle.getMake());
+            preparedStatement.setString(4, vehicle.getModel());
+            preparedStatement.setString(5, vehicle.getVehicleType());
+            preparedStatement.setString(6, vehicle.getColor());
+            preparedStatement.setInt(7, vehicle.getOdometer());
+            preparedStatement.setDouble(8, vehicle.getPrice());
+            preparedStatement.setString(9, vehicle.getSold());
+            preparedStatement.executeUpdate();
+        } catch (SQLException sql) {
+            sql.printStackTrace();
+        }
+    }
+    
+    @Override
+    public void removeVehicle(Vehicle vehicle) {
+    
     }
     
     public Vehicle generateVehicleFromRS(ResultSet resultSet) throws SQLException {

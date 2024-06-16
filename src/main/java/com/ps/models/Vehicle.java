@@ -11,7 +11,38 @@ public class Vehicle {
     private double price;
     private String sold;
     
-    public Vehicle(int vin, int year, String make, String model, String vehicleType, String color, int odometer, double price, String sold) {
+    public Vehicle(
+            int vin,
+            int year,
+            String make,
+            String model,
+            String vehicleType,
+            String color,
+            int odometer,
+            double price
+    ) {
+        this.vin = vin;
+        this.year = year;
+        this.make = make;
+        this.model = model;
+        this.vehicleType = vehicleType;
+        this.color = color;
+        this.odometer = odometer;
+        this.price = price;
+        this.sold = "NO";
+    }
+    
+    public Vehicle(
+            int vin,
+            int year,
+            String make,
+            String model,
+            String vehicleType,
+            String color,
+            int odometer,
+            double price,
+            String sold
+    ) {
         this.vin = vin;
         this.year = year;
         this.make = make;
@@ -83,7 +114,7 @@ public class Vehicle {
         return sold;
     }
     public void setSold(String sold) {
-        this.sold = sold;
+        this.sold = sold.toUpperCase();
     }
     
     @Override
