@@ -23,7 +23,8 @@ public class UserInterface {
     public static void display(String[] args) {
         init(args);
     
-        List<Vehicle> vehicles = vehicleDAO.getVehiclesByPrice(995, 996);
+//        List<Vehicle> vehicles = vehicleDAO.getVehiclesByPrice(995, 996);
+        List<Vehicle> vehicles = vehicleDAO.getVehiclesByMakeModel("Ford", "Explorer");
         System.out.println(vehicles);
     }
     

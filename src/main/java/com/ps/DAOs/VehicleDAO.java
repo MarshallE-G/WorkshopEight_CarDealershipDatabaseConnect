@@ -49,7 +49,31 @@ public class VehicleDAO implements VehicleInt {
     
     @Override
     public List<Vehicle> getVehiclesByMakeModel(String make, String model) {
-        return null;
+        List<Vehicle> vehicles = new ArrayList<>();
+    
+        try (
+                Connection connection = basicDataSource.getConnection();
+                PreparedStatement preparedStatement = connection.prepareStatement(
+                        "SELECT * FROM vehicles WHERE make_name = ? AND model_name = ?"
+                );
+        ) {
+            preparedStatement.setString(1, make);
+            preparedStatement.setString(2, model);
+        
+            try (
+                    ResultSet resultSet = preparedStatement.executeQuery();
+            ) {
+                while (resultSet.next()) {
+                    Vehicle vehicle = generateVehicleFromRS(resultSet);
+                
+                    vehicles.add(vehicle);
+                }
+            }
+        } catch (SQLException sql) {
+            sql.printStackTrace();
+        } finally {
+            return vehicles;
+        }
     }
     
     @Override
