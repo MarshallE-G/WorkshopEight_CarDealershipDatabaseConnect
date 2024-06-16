@@ -9,5 +9,5 @@ public interface VehicleInt {
     List<Vehicle> getVehiclesByYear(int min, int max);
     List<Vehicle> getVehiclesByColor(String color);
     List<Vehicle> getVehiclesByMileage(int min, int max);
-    List<Vehicle> getVehiclesByType(String inputVehicleType);
+    List<Vehicle> getVehiclesByType(String vehicleType);
 }

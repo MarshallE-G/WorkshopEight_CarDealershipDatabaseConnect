@@ -163,8 +163,31 @@ public class VehicleDAO implements VehicleInt {
     }
     
     @Override
-    public List<Vehicle> getVehiclesByType(String inputVehicleType) {
-        return null;
+    public List<Vehicle> getVehiclesByType(String vehicleType) {
+        List<Vehicle> vehicles = new ArrayList<>();
+    
+        try (
+                Connection connection = basicDataSource.getConnection();
+                PreparedStatement preparedStatement = connection.prepareStatement(
+                        "SELECT * FROM vehicles WHERE vehicle_type = ?"
+                );
+        ) {
+            preparedStatement.setString(1, vehicleType);
+        
+            try (
+                    ResultSet resultSet = preparedStatement.executeQuery();
+            ) {
+                while (resultSet.next()) {
+                    Vehicle vehicle = generateVehicleFromRS(resultSet);
+                
+                    vehicles.add(vehicle);
+                }
+            }
+        } catch (SQLException sql) {
+            sql.printStackTrace();
+        } finally {
+            return vehicles;
+        }
     }
     
     public Vehicle generateVehicleFromRS(ResultSet resultSet) throws SQLException {
