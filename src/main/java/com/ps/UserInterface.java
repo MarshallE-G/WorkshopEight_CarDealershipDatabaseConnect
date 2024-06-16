@@ -1,9 +1,14 @@
 package com.ps;
 
+import com.ps.DAOs.VehicleDAO;
+import com.ps.models.Vehicle;
 import org.apache.commons.dbcp2.BasicDataSource;
+
+import java.util.List;
 
 public class UserInterface {
     // Change UserInterface in order to save to the Database instead of writing to the file.
+    private static VehicleDAO vehicleDAO;
     
     public static void init(String[] args) {
         BasicDataSource basicDataSource = new BasicDataSource();
@@ -11,9 +16,16 @@ public class UserInterface {
         basicDataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
         basicDataSource.setUsername(args[0]);
         basicDataSource.setPassword(args[1]);
+        
+        vehicleDAO = new VehicleDAO(basicDataSource);
     }
     
     public static void display(String[] args) {
         init(args);
+    
+        List<Vehicle> vehicles = vehicleDAO.getVehiclesByPrice(995, 996);
+        System.out.println(vehicles);
     }
+    
+    
 }

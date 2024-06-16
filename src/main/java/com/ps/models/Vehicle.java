@@ -9,8 +9,9 @@ public class Vehicle {
     private String color;
     private int odometer;
     private double price;
+    private String sold;
     
-    public Vehicle(int vin, int year, String make, String model, String vehicleType, String color, int odometer, double price) {
+    public Vehicle(int vin, int year, String make, String model, String vehicleType, String color, int odometer, double price, String sold) {
         this.vin = vin;
         this.year = year;
         this.make = make;
@@ -19,6 +20,7 @@ public class Vehicle {
         this.color = color;
         this.odometer = odometer;
         this.price = price;
+        this.sold = sold;
     }
     
     public int getVin() {
@@ -77,6 +79,13 @@ public class Vehicle {
         this.price = price;
     }
     
+    public String getSold() {
+        return sold;
+    }
+    public void setSold(String sold) {
+        this.sold = sold;
+    }
+    
     @Override
     public String toString() {
         return "Vehicle{" +
@@ -88,6 +97,7 @@ public class Vehicle {
                 ", color='" + color + '\'' +
                 ", odometer=" + odometer +
                 ", price=" + price +
-                '}';
+                ", sold='" + sold + '\'' +
+                "}\n";
     }
 }
