@@ -28,9 +28,9 @@ public class UserInterface {
 //        List<Vehicle> vehicles = vehicleDAO.getVehiclesByColor("silver");
 //        List<Vehicle> vehicles = vehicleDAO.getVehiclesByMileage(1, 1);
 //        List<Vehicle> vehicles = vehicleDAO.getVehiclesByType("suv");
-//        Vehicle vehicle = new Vehicle(93335, 2024, "Bugatti", "W16 Mistral", "Sports-car", "Magenta", 424_535, 5_032_943.65);
-//        vehicleDAO.addVehicle(vehicle);
-        vehicleDAO.removeVehicle(93335);
+        Vehicle vehicle = new Vehicle(93335, 2024, "Bugatti", "W16 Mistral", "Sports-car", "Magenta", 424_535, 5_032_943.65);
+        vehicleDAO.addVehicle(vehicle);
+//        vehicleDAO.removeVehicle();
 //        System.out.println(vehicles);
     }
     
