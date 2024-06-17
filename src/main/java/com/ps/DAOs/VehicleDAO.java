@@ -47,7 +47,7 @@ public class VehicleDAO implements VehicleInt {
     @Override
     public List<Vehicle> getVehiclesByMakeModel(String make, String model) {
         List<Vehicle> vehicles = new ArrayList<>();
-    
+        
         try (
                 Connection connection = basicDataSource.getConnection();
                 PreparedStatement preparedStatement = connection.prepareStatement(
@@ -56,13 +56,13 @@ public class VehicleDAO implements VehicleInt {
         ) {
             preparedStatement.setString(1, make);
             preparedStatement.setString(2, model);
-        
+            
             try (
                     ResultSet resultSet = preparedStatement.executeQuery();
             ) {
                 while (resultSet.next()) {
                     Vehicle vehicle = generateVehicleFromRS(resultSet);
-                
+                    
                     vehicles.add(vehicle);
                 }
             }
@@ -76,7 +76,7 @@ public class VehicleDAO implements VehicleInt {
     @Override
     public List<Vehicle> getVehiclesByYear(int min, int max) {
         List<Vehicle> vehicles = new ArrayList<>();
-    
+        
         try (
                 Connection connection = basicDataSource.getConnection();
                 PreparedStatement preparedStatement = connection.prepareStatement(
@@ -85,13 +85,13 @@ public class VehicleDAO implements VehicleInt {
         ) {
             preparedStatement.setDouble(1, min);
             preparedStatement.setDouble(2, max);
-        
+            
             try (
                     ResultSet resultSet = preparedStatement.executeQuery();
             ) {
                 while (resultSet.next()) {
                     Vehicle vehicle = generateVehicleFromRS(resultSet);
-                
+                    
                     vehicles.add(vehicle);
                 }
             }
@@ -105,7 +105,7 @@ public class VehicleDAO implements VehicleInt {
     @Override
     public List<Vehicle> getVehiclesByColor(String color) {
         List<Vehicle> vehicles = new ArrayList<>();
-    
+        
         try (
                 Connection connection = basicDataSource.getConnection();
                 PreparedStatement preparedStatement = connection.prepareStatement(
@@ -113,13 +113,13 @@ public class VehicleDAO implements VehicleInt {
                 );
         ) {
             preparedStatement.setString(1, color);
-        
+            
             try (
                     ResultSet resultSet = preparedStatement.executeQuery();
             ) {
                 while (resultSet.next()) {
                     Vehicle vehicle = generateVehicleFromRS(resultSet);
-                
+                    
                     vehicles.add(vehicle);
                 }
             }
@@ -133,7 +133,7 @@ public class VehicleDAO implements VehicleInt {
     @Override
     public List<Vehicle> getVehiclesByMileage(int min, int max) {
         List<Vehicle> vehicles = new ArrayList<>();
-    
+        
         try (
                 Connection connection = basicDataSource.getConnection();
                 PreparedStatement preparedStatement = connection.prepareStatement(
@@ -142,13 +142,13 @@ public class VehicleDAO implements VehicleInt {
         ) {
             preparedStatement.setInt(1, min);
             preparedStatement.setInt(2, max);
-        
+            
             try (
                     ResultSet resultSet = preparedStatement.executeQuery();
             ) {
                 while (resultSet.next()) {
                     Vehicle vehicle = generateVehicleFromRS(resultSet);
-                
+                    
                     vehicles.add(vehicle);
                 }
             }
@@ -162,7 +162,7 @@ public class VehicleDAO implements VehicleInt {
     @Override
     public List<Vehicle> getVehiclesByType(String vehicleType) {
         List<Vehicle> vehicles = new ArrayList<>();
-    
+        
         try (
                 Connection connection = basicDataSource.getConnection();
                 PreparedStatement preparedStatement = connection.prepareStatement(
@@ -170,13 +170,13 @@ public class VehicleDAO implements VehicleInt {
                 );
         ) {
             preparedStatement.setString(1, vehicleType);
-        
+            
             try (
                     ResultSet resultSet = preparedStatement.executeQuery();
             ) {
                 while (resultSet.next()) {
                     Vehicle vehicle = generateVehicleFromRS(resultSet);
-                
+                    
                     vehicles.add(vehicle);
                 }
             }
@@ -202,7 +202,7 @@ public class VehicleDAO implements VehicleInt {
                                 "`mileage`, " +
                                 "`vehicle_price`, " +
                                 "`SOLD`) " +
-                                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);"
+                                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);"
                 );
         ) {
             preparedStatement.setInt(1, vehicle.getVin());
@@ -221,20 +221,30 @@ public class VehicleDAO implements VehicleInt {
     }
     
     @Override
-    public void removeVehicle(Vehicle vehicle) {
-    
+    public void removeVehicle(int vin) {
+        try (
+                Connection connection = this.basicDataSource.getConnection();
+                PreparedStatement preparedStatement = connection.prepareStatement(
+                        "DELETE FROM vehicles WHERE VIN = ?"
+                );
+        ) {
+            preparedStatement.setInt(1, vin);
+            preparedStatement.executeUpdate();
+        } catch (SQLException sql) {
+            sql.printStackTrace();
+        }
     }
     
     public Vehicle generateVehicleFromRS(ResultSet resultSet) throws SQLException {
-        int vin = resultSet.getInt("VIN");
-        int year = resultSet.getInt("year");
-        String make = resultSet.getString("make_name");
-        String model = resultSet.getString("model_name");
+        int    vin         = resultSet.getInt("VIN");
+        int    year        = resultSet.getInt("year");
+        String make        = resultSet.getString("make_name");
+        String model       = resultSet.getString("model_name");
         String vehicleType = resultSet.getString("vehicle_type");
-        String color = resultSet.getString("vehicle_color");
-        int odometer = resultSet.getInt("mileage");
-        double price = resultSet.getInt("vehicle_price");
-        String sold = resultSet.getString("SOLD");
+        String color       = resultSet.getString("vehicle_color");
+        int    odometer    = resultSet.getInt("mileage");
+        double price       = resultSet.getInt("vehicle_price");
+        String sold        = resultSet.getString("SOLD");
         
         return new Vehicle(vin, year, make, model, vehicleType, color, odometer, price, sold);
     }
