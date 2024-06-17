@@ -16,6 +16,53 @@ public class VehicleDAO implements VehicleInt {
     }
     
     @Override
+    public List<Vehicle> getAllVehicles() {
+        List<Vehicle> vehicles = new ArrayList<>();
+        try (
+                Connection connection = this.basicDataSource.getConnection();
+                PreparedStatement preparedStatement = connection.prepareStatement(
+                        "SELECT * FROM vehicles"
+                );
+                ResultSet resultSet = preparedStatement.executeQuery();
+        ) {
+            while (resultSet.next()) {
+                Vehicle vehicle = generateVehicleFromRS(resultSet);
+                
+                vehicles.add(vehicle);
+            }
+        } catch (SQLException sql) {
+            sql.printStackTrace();
+        } finally {
+            return vehicles;
+        }
+    }
+    
+    @Override
+    public Vehicle getOneVehicle(int vin) {
+        Vehicle vehicle = null;
+        
+        try (
+                Connection connection = this.basicDataSource.getConnection();
+                PreparedStatement preparedStatement = connection.prepareStatement(
+                        "SELECT * FROM vehicles WHERE vin = ?"
+                );
+        ) {
+            preparedStatement.setInt(1, vin);
+            try (
+                    ResultSet resultSet = preparedStatement.executeQuery();
+            ) {
+                while (resultSet.next()) {
+                    vehicle = generateVehicleFromRS(resultSet);
+                }
+            }
+        } catch (SQLException sql) {
+            sql.printStackTrace();
+        }
+        
+        return vehicle;
+    }
+    
+    @Override
     public List<Vehicle> getVehiclesByPrice(double min, double max) {
         List<Vehicle> vehicles = new ArrayList<>();
         
