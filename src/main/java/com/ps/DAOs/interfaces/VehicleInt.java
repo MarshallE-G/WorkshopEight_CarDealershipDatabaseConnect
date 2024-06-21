@@ -14,4 +14,5 @@ public interface VehicleInt {
     List<Vehicle> getVehiclesByType(String vehicleType);
     void addVehicle(Vehicle vehicle);
     void removeVehicle(int vin);
+    void updateSalesStatus();
 }

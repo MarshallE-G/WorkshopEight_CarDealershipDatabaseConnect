@@ -282,6 +282,11 @@ public class VehicleDAO implements VehicleInt {
         }
     }
     
+    @Override
+    public void updateSalesStatus() {
+    
+    }
+    
     public Vehicle generateVehicleFromRS(ResultSet resultSet) throws SQLException {
         int    vin         = resultSet.getInt("VIN");
         int    year        = resultSet.getInt("year");
