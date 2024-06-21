@@ -249,7 +249,7 @@ public class VehicleDAO implements VehicleInt {
                                 "`mileage`, " +
                                 "`vehicle_price`, " +
                                 "`SOLD`) " +
-                                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);"
+                                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"
                 );
         ) {
             preparedStatement.setInt(1, vehicle.getVin());

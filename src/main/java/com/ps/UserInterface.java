@@ -1,5 +1,6 @@
 package com.ps;
 
+import com.ps.DAOs.SalesDAO;
 import com.ps.DAOs.VehicleDAO;
 import com.ps.models.SalesContract;
 import com.ps.models.Vehicle;
@@ -12,6 +13,7 @@ import java.util.Scanner;
 
 public class UserInterface {
     private static VehicleDAO vehicleDAO;
+    private static SalesDAO salesDAO;
     private static Scanner scanner = new Scanner(System.in);
     
     public static void init(String[] args) {
@@ -443,7 +445,7 @@ public class UserInterface {
         }
 
         SalesContract salesContract = new SalesContract(formattedDate, customerName, customerEmail, vehicleSold, financeOption);
-        .saveContract(salesContract);
+        salesDAO.saveContract(salesContract);
     }
 //
 //    public static void processLeaseContract() {
