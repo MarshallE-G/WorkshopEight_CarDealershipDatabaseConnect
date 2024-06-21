@@ -1,6 +1,7 @@
 package com.ps;
 
 import com.ps.DAOs.VehicleDAO;
+import com.ps.models.SalesContract;
 import com.ps.models.Vehicle;
 import org.apache.commons.dbcp2.BasicDataSource;
 
@@ -25,19 +26,7 @@ public class UserInterface {
     
     public static void display(String[] args) {
         init(args);
-    
-        List<Vehicle> vehicles = vehicleDAO.getAllVehicles();
-//        List<Vehicle> vehicles = vehicleDAO.getVehiclesByPrice(995, 996);
-//        List<Vehicle> vehicles = vehicleDAO.getVehiclesByMakeModel("Ford", "Explorer");
-//        List<Vehicle> vehicles = vehicleDAO.getVehiclesByColor("silver");
-//        List<Vehicle> vehicles = vehicleDAO.getVehiclesByMileage(1, 1);
-//        List<Vehicle> vehicles = vehicleDAO.getVehiclesByType("suv");
-//        Vehicle vehicle = new Vehicle(93335, 2024, "Bugatti", "W16 Mistral", "Sports-car", "Magenta", 424_535, 5_032_943.65);
-//        vehicleDAO.addVehicle(vehicle);
-//        vehicleDAO.removeVehicle();
-//        System.out.println(vehicles);
-        
-        displayVehicles(vehicles);
+        displayMainMenu();
     }
     
     public static void displayMainMenu() {
@@ -393,72 +382,69 @@ public class UserInterface {
             System.out.println("\n\t~Vehicle not found~\n\n");
         }
     }
-//
-//    public static void processSalesContract() {
-//        LocalDate date = LocalDate.now();
-//        String    customerName;
-//        String    customerEmail;
-//
-//        int     vinInput;
-//        Vehicle vehicleSold = null; // place-holder
-//
-//        String  financeOptionStr;
-//        boolean financeOption = false; // place-holder
-//
-//        DateTimeFormatter formatter     = DateTimeFormatter.ofPattern("yyyyMMdd");
-//        String            formattedDate = date.format(formatter);
-//
-//        // Consumes extra carriage
-//        scanner.nextLine();
-//
-//        System.out.println("\n\nYou selected the Sales Contract option!\n");
-//
-//        System.out.println("Please enter your first and last name:");
-//        customerName = scanner.nextLine();
-//
-//        System.out.println("Please enter your email address:");
-//        customerEmail = scanner.nextLine();
-//
-//        System.out.println("Please enter the vin# of the vehicle you would like to purchase:");
-//        vinInput = scanner.nextInt();
-//
-//        int vehicleVin;
-//        for (Vehicle vehicle : this.dealership.getAllVehicles()) {
-//            vehicleVin = vehicle.getVin(); // vin# of each vehicle in the dealership
-//            if (vehicleVin == vinInput) {
-//                vehicleSold = vehicle;
-//                System.out.printf("You selected: %d | %d | %s | %s | %s | %s | %d | %.2f\n\n",
-//                        vehicleSold.getVin(),
-//                        vehicleSold.getYear(),
-//                        vehicleSold.getMake(),
-//                        vehicleSold.getModel(),
-//                        vehicleSold.getVehicleType(),
-//                        vehicleSold.getColor(),
-//                        vehicleSold.getOdometer(),
-//                        vehicleSold.getPrice()
-//                );
-//                break;
-//            }
-//        }
-//
-//        // Consumes extra carriage
-//        scanner.nextLine();
-//
-//        System.out.println("Would you like to finance? (YES/NO)");
-//        financeOptionStr = scanner.nextLine();
-//
-//        if (financeOptionStr.equalsIgnoreCase("YES")) {
-//            financeOption = true;
-//        } else if (financeOptionStr.equalsIgnoreCase("NO")) {
-//            financeOption = false;
-//        }
-//
-//        SalesContract salesContract = new SalesContract(formattedDate, customerName, customerEmail, vehicleSold, financeOption);
-//        ContractFileManager.saveContract(salesContract);
-//
-//        this.dealership.removeVehicle(vehicleSold);
-//        DealershipFileManager.saveDealership(this.dealership);
-//    }
+
+    public static void processSalesContract() {
+        LocalDate date = LocalDate.now();
+        String    customerName;
+        String    customerEmail;
+
+        int     vinInput;
+        Vehicle vehicleSold = null; // place-holder
+
+        String  financeOptionStr;
+        boolean financeOption = false; // place-holder
+
+        DateTimeFormatter formatter     = DateTimeFormatter.ofPattern("yyyyMMdd");
+        String            formattedDate = date.format(formatter);
+
+        // Consumes extra carriage
+        scanner.nextLine();
+
+        System.out.println("\n\nYou selected the Sales Contract option!\n");
+
+        System.out.println("Please enter your first and last name:");
+        customerName = scanner.nextLine();
+
+        System.out.println("Please enter your email address:");
+        customerEmail = scanner.nextLine();
+
+        System.out.println("Please enter the vin# of the vehicle you would like to purchase:");
+        vinInput = scanner.nextInt();
+
+        int vinOfVehicle;
+        for (Vehicle vehicle : vehicleDAO.getAllVehicles()) {
+            vinOfVehicle = vehicle.getVin();
+            if (vinOfVehicle == vinInput) {
+                vehicleSold = vehicle;
+                System.out.printf("You selected: %d | %d | %s | %s | %s | %s | %d | %.2f\n\n",
+                        vehicleSold.getVin(),
+                        vehicleSold.getYear(),
+                        vehicleSold.getMake(),
+                        vehicleSold.getModel(),
+                        vehicleSold.getVehicleType(),
+                        vehicleSold.getColor(),
+                        vehicleSold.getOdometer(),
+                        vehicleSold.getPrice()
+                );
+                break;
+            }
+        }
+
+        // Consumes extra carriage
+        scanner.nextLine();
+
+        System.out.println("Would you like to finance? (YES/NO)");
+        financeOptionStr = scanner.nextLine();
+
+        if (financeOptionStr.equalsIgnoreCase("YES")) {
+            financeOption = true;
+        } else if (financeOptionStr.equalsIgnoreCase("NO")) {
+            financeOption = false;
+        }
+
+        SalesContract salesContract = new SalesContract(formattedDate, customerName, customerEmail, vehicleSold, financeOption);
+        .saveContract(salesContract);
+    }
 //
 //    public static void processLeaseContract() {
 //        LocalDate date = LocalDate.now();
